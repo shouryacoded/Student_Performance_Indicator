@@ -28,19 +28,19 @@ class DataTransformation:
         '''
         
         try:
-            numerical_features = ['reading_score', 'writing_score']
-            categorical_features = [
-                'gender',
-                'race_ethnicity',
-                'parental_level_of_education',
-                'lunch',
-                'test_preparation_course'
+            numerical_columns = ["reading_score", "writing_score"]
+            categorical_columns = [
+                "gender",
+                "race_ethnicity",
+                "parental_level_of_education",
+                "lunch",
+                "test_preparation_course"
             ]
 
             num_pipeline = Pipeline(
                 steps=[
                     ("imputer", SimpleImputer(strategy="median")),
-                    ("scaler", StandardScaler())
+                    ("scaler", StandardScaler(with_mean=False))
                 ]
             )
             
@@ -49,17 +49,18 @@ class DataTransformation:
             cat_pipeline = Pipeline(
                 steps=[
                     ("imputer", SimpleImputer(strategy="most_frequent")),
-                    ("OneHotEncoder", OneHotEncoder()),
-                    ("scaler", StandardScaler())                    
+                    ("one_hot_encoder", OneHotEncoder()),
+                    ("scaler", StandardScaler(with_mean=False))                    
                 ]
             )
             
-            logging.info("Categorical columns transformed")
+            logging.info(f"Categorical features : {categorical_columns}")
+            logging.info(f"Numerical features : {numerical_columns}")
             
             preprocessor = ColumnTransformer(
                 [
-                ("num_pipeline", num_pipeline, numerical_features),
-                ("cat_pipeline", cat_pipeline, categorical_features)
+                ("num_pipeline", num_pipeline, numerical_columns),
+                ("cat_pipeline", cat_pipeline, categorical_columns)
                 ]
             )
             
@@ -81,24 +82,24 @@ class DataTransformation:
             
             target_column_name = "math_score"
             
-            numerical_columns = ['reading_score', 'writing_score']
+            numerical_columns = ["reading_score", "writing_score"]
             
-            input_feature_train_df = train_df.drop(columns=target_column_name, axis=1)
+            input_feature_train_df = train_df.drop(columns=[target_column_name], axis=1)
             target_feature_train_df = train_df[target_column_name]
             
-            input_feature_test_df = test_df.drop(columns=target_column_name, axis=1)
+            input_feature_test_df = test_df.drop(columns=[target_column_name], axis=1)
             target_feature_test_df = test_df[target_column_name]
             
             logging.info(f"Applying preprocessing object on training and testing dataframes")
             
-            input_feature_train_arr = preprocessing_obj.fit(input_feature_train_df)
-            input_feature_test_arr = preprocessing_obj.fit(input_feature_test_df)
+            input_feature_train_arr = preprocessing_obj.fit_transform(input_feature_train_df)
+            input_feature_test_arr = preprocessing_obj.transform(input_feature_test_df)
             
-            train_arr = np.c_=[
-                input_feature_train_arr, np.array(target_feature_test_df)
+            train_arr = np.c_[
+                input_feature_train_arr, np.array(target_feature_train_df)
             ]
             test_arr = np.c_[
-                input_feature_train_arr, np.array(target_feature_test_df)
+                input_feature_test_arr, np.array(target_feature_test_df)
             ]
             
             logging.info(f"Saved preprocessing object")
@@ -112,8 +113,7 @@ class DataTransformation:
                 train_arr,
                 test_arr,
                 self.data_transformation_config.preprocessor_obj_file_path
-            )
-                        
+            )          
 
         except Exception as e:
             raise CustomException(e,sys)
