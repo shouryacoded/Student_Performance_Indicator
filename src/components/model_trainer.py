@@ -42,7 +42,7 @@ class ModelTrainer:
                 "Random Forest": RandomForestRegressor(),
                 "Decision Tree": DecisionTreeRegressor(),
                 "Gradient Boosting": GradientBoostingRegressor(),
-                # "Linear Regression": LinearRegression(),
+                "Linear Regression": LinearRegression(),
                 "XGBRegressor": XGBRegressor(),
                 "CatBoosting Regressor": CatBoostRegressor(verbose=False),
                 "AdaBoost Regressor": AdaBoostRegressor(),
@@ -82,8 +82,7 @@ class ModelTrainer:
                     'learning_rate':[.1,.01,0.5,.001],
                     # 'loss':['linear','square','exponential'],
                     'n_estimators': [8,16,32,64,128,256]
-                }
-                
+                } 
             }
             
             model_report:dict = evaluate_models(
@@ -116,8 +115,7 @@ class ModelTrainer:
             
             r2_square = r2_score(y_test, predicted)
             
-            results = (best_model_name, f"{r2_square*100}%")
-            return results
+            return r2_square
                     
         except Exception as e:
             CustomException(e,sys)
