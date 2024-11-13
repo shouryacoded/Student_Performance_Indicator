@@ -1,89 +1,65 @@
-# Welcome to Student Performance Indicator
+# Student Performance Indicator
 
- 
 
 ## Prerequisites
 
 
+Chroium based browser (Google Chrome, Brave, Opera, etc.)
 
-Google Chrome, ver : 95.xx.xx+ to latest 
+git
 
-Firefox, ver : 85.x.x+ to latest
+conda 
 
-Edge, ver : 100.x.xxxx.xx to latest
+python 3.10+
 
-git, ver : 2.3x.x+
-
-node, ver : 18.2.0
-
-npm, ver : 8.5.5
-
-live-server@node_modules : 1.2.2
-
-Visual Studio Code, ver : 1.6x.x+ to latest
+Visual Studio Code
 
 ## Usage
 
-### Arch-Linux GUI (Endeavour OS/Manjaro)
+### Clone the repository
 
-Open Terminal
+```markdown
+git clone https://github.com/shouryacoded/Student_Performance_Indicator.git
+```
+
+### Setting up the virual environment
+
+Open Terminal in Visual Studio Code
 
 ```markdown
 
-git clone https://github.com/shouryacoded/SentiSense.git
+conda create -p venv/ python=3.11 -y
+activate venv/
 
 ```
-```markdown
-cd SentiSense
-```
-```markdown
-
-sudo npm install -g live-server
-
-```
+### Installing the requirements
 
 ```markdown
-
-live-server
-
+pip install -r requirements.txt
 ```
-To exit 
+This will install all the required libraries and dependencies and also trigger setup.py.
+
+### Generate the logger file
 
 ```markdown
+python .\src\logger.py
+```
+Creates 2 files in the logs folder. log.log and log.txt
 
-ctrl+c
+### Running the pipleline
+```markdown
+python .\src\components\data_ingestion.py
 
 ```
+This includes data ingestion, data transformation, model training, model evaluation, and model prediction.
+Outputs 2 files in the artifacts folder. model.pkl and preprocessor.pkl
+Outputs model accuracy and execution time in the terminal
 
-### Windows 10 / 11
-
-Download the release (https://github.com/shouryacoded/SentiSense/releases/tag/First-Release)
-
-Unzip 
-
-Open the folder in command line
+### Running the flask app to test the model on new data provided by the user.
 
 ```markdown
-live-server
+python .\app.py
 ```
-To exit
+Go to http://127.0.0.1:5000/predictdata in your browser to test the model.
 
-CTRL + C
-
-
-
-## In action
-
-### Demo Face Detection
-
-![Demo Face Detection](https://github.com/shouryacoded/SentiSense/blob/main/Demo-Detection.png)
-
-
-
-### Breif Demo
-
-https://user-images.githubusercontent.com/77936581/170876185-af0fdc16-4105-4c36-ac8f-9c76542ade32.mp4
-
-### Full Demo with Explanation
-
-(https://youtu.be/HHCfMKSzxDI)
+## Screenshots
