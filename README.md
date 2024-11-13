@@ -63,3 +63,11 @@ python .\app.py
 Go to http://127.0.0.1:5000/predictdata in your browser to test the model.
 
 ## Screenshots
+![Flask Instance](<demos/Screenshot 2024-11-14 043600.png>)
+
+![Flask Interface](<Screenshot 2024-11-14 045056.png>)
+
+## Video Demo 
+
+https://github.com/user-attachments/assets/72a3b9ab-f6cd-43ec-8afc-e50bcadecdb0
+
